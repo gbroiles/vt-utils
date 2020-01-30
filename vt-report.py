@@ -17,13 +17,15 @@ def scanit(filename):
     apikey = os.environ["VTAPI"]
     f = open(filename, "rb")
     contents=f.read()
-    sha256=hashlib.sha256(contents).hexdigest()
+#    sha256=hashlib.sha256(contents).hexdigest()
 #    print(sha256)
-    params = {'apikey': apikey, 'resouce': sha256}
+    sha256='99017f6eebbac24f351415dd410d522d'
+    params = {'apikey': apikey, 'resouce': sha256, 'allinfo': True}
     response = requests.get(url, params=params)
     status = response.status_code
     print(status)
     pprint.pprint(response.json())
+    pprint.pprint(response)
 
 def start():
     parser = create_parse()
