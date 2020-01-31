@@ -9,10 +9,10 @@ set environment variable VTAPI to API key prior to use, such as:
 
 in .bashrc
 
-usage:
+## Usage:
 
-vt-upload suspicious.exe
+`vt-upload suspicious.exe`
   uploads file "suspicious.exe" to VirusTotal for analysis
   
-vt-report suspicious.exe
+`vt-report suspicious.exe`
   checks VirusTotal for analysis/reports re file "suspicious.exe"
