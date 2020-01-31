@@ -20,7 +20,7 @@ def scanit(filename):
 #    sha256=hashlib.sha256(contents).hexdigest()
 #    print(sha256)
     sha256='99017f6eebbac24f351415dd410d522d'
-    params = {'apikey': apikey, 'resouce': sha256, 'allinfo': True}
+    params = {'apikey': apikey, 'resource': sha256, 'allinfo': True}
     response = requests.get(url, params=params)
     status = response.status_code
     print(status)
