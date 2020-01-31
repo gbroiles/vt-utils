@@ -1,13 +1,11 @@
 # vt-utils
 VirusTotal command line utilities
 
-command line wrapper for VirusTotal API.
+A simple command line wrapper for the VirusTotal API.
 
-set environment variable VTAPI to API key prior to use, such as:
+Prior to use, the environment variable VTAPI must be set to your VirusTotal API key.
 
-  export VTAPI="blahblahblah"
-
-in .bashrc
+For example: place `export VTAPI="blahblahblah"` in .bashrc
 
 ## Usage:
 
