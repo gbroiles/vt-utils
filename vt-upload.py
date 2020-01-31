@@ -11,9 +11,8 @@ def create_parse():
     return parser
 
 
-def scanit(filename):
+def scanit(filename,apikey):
     url = 'https://www.virustotal.com/vtapi/v2/file/scan'
-    apikey = os.environ["VTAPI"]
     params = {'apikey': apikey}
     files = {'file': (filename, open(filename, 'rb'))}
     response = requests.post(url, files=files, params=params)
@@ -23,11 +22,13 @@ def start():
     parser = create_parse()
     args = parser.parse_args()
     filename = args.filename
-    if os.environ["VTAPI"] == "":
+    try:
+        apikey = os.environ["VTAPI"]
+    except KeyError:
         print('Must set VTAPI key enviroment variable.')
-        sys.exit
+        sys.exit(1)
 
-    scanit(args.filename)
+    scanit(args.filename,apikey)
 
 
 if __name__ == '__main__':
