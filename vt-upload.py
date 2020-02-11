@@ -1,8 +1,10 @@
 #! /usr/bin/env python3
-import requests
+#pylint: disable=invalid-name,missing-module-docstring,missing-function-docstring
 import argparse
-import os,sys
+import os
+import sys
 import pprint
+import requests
 
 def create_parse():
     parser = argparse.ArgumentParser(
@@ -10,8 +12,7 @@ def create_parse():
     parser.add_argument('filename', help='file to scan')
     return parser
 
-
-def scanit(filename,apikey):
+def scanit(filename, apikey):
     url = 'https://www.virustotal.com/vtapi/v2/file/scan'
     params = {'apikey': apikey}
     files = {'file': (filename, open(filename, 'rb'))}
@@ -21,16 +22,12 @@ def scanit(filename,apikey):
 def start():
     parser = create_parse()
     args = parser.parse_args()
-    filename = args.filename
     try:
         apikey = os.environ["VTAPI"]
     except KeyError:
         print('Must set VTAPI key enviroment variable.')
         sys.exit(1)
-
-    scanit(args.filename,apikey)
-
+    scanit(args.filename, apikey)
 
 if __name__ == '__main__':
     start()
-
