@@ -21,10 +21,7 @@ def scanit(filename, apikey):
     sha256 = hashlib.sha256(contents).hexdigest()
     params = {'apikey': apikey, 'resource': sha256, 'allinfo': True}
     response = requests.get(url, params=params)
-#    status = response.status_code
-#    print(status)
     pprint.pprint(response.json())
-#    pprint.pprint(response)
 
 def start():
     parser = create_parse()
