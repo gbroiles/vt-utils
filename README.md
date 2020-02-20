@@ -14,3 +14,5 @@ For example: place `export VTAPI="blahblahblah"` in .bashrc
   
 `vt-report suspicious.exe`
   checks VirusTotal for analysis/reports re file "suspicious.exe"
+
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
