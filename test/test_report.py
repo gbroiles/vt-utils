@@ -5,7 +5,7 @@ import virustotal
 #testfile = "eicar.com"
 eicar_sha256 = "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f"
 
-def test_positive_result(result):
+def check_positive(result):
     assert "md5" in result
     assert "permalink" in result
     assert "scans" in result
@@ -20,4 +20,5 @@ except KeyError:
 
 #test_positive_result(virustotal.scan(testfile, apikey))  # test with EICAR file
 # eicar file disabled because it makes Travis-CI angry
-test_positive_result(virustotal.scan(eicar_sha256, apikey))  # test with EICAR hash
+result = virustotal.scan(eicar_sha256, apikey)  # test with EICAR hash
+check_positive(result)
