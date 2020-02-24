@@ -1,11 +1,9 @@
+# pylint: disable=invalid-name,missing-module-docstring,missing-function-docstring
 import os
-import sys
 import virustotal
-import vt_report
 
 testfile = "eicar.com"
 eicar_sha256 = "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f"
-
 
 def test_positive_result(result):
     assert "md5" in result
@@ -13,7 +11,6 @@ def test_positive_result(result):
     assert "scans" in result
     assert "sha1" in result
     assert result["sha256"] == eicar_sha256
-
 
 try:
     apikey = os.environ["VTAPI"]
