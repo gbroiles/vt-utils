@@ -1,30 +1,19 @@
 #! /usr/bin/env python3
-# pylint: disable=invalid-name,missing-module-docstring,missing-function-docstring
+""" command line utility to check virustotal for reports re a file or sha256 hash """
 import argparse
-import hashlib
 import os
 import sys
 import pprint
-import requests
-
+import virustotal
 
 def create_parse():
+    """ set up CLI parser """
     parser = argparse.ArgumentParser(description="virustotal file report retriever")
     parser.add_argument("filename", help="file to check for results")
     return parser
 
-
-def scanit(filename, apikey):
-    url = "https://www.virustotal.com/vtapi/v2/file/report"
-    f = open(filename, "rb")
-    contents = f.read()
-    sha256 = hashlib.sha256(contents).hexdigest()
-    params = {"apikey": apikey, "resource": sha256, "allinfo": True}
-    response = requests.get(url, params=params)
-    pprint.pprint(response.json())
-
-
 def start():
+    """ main work done here """
     parser = create_parse()
     args = parser.parse_args()
     try:
@@ -32,8 +21,8 @@ def start():
     except KeyError:
         print("Must set VTAPI key enviroment variable.")
         sys.exit(1)
-    scanit(args.filename, apikey)
-
+    response = virustotal.scan(args.filename, apikey)
+    pprint.pprint(response)
 
 if __name__ == "__main__":
     start()
