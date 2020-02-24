@@ -12,13 +12,14 @@ def check_positive(result):
     assert "sha1" in result
     assert result["sha256"] == eicar_sha256
 
-try:
-    apikey = os.environ["VTAPI"]
-except KeyError:
-    print("Must set VTAPI key enviroment variable.")
-    assert 0
+def test_api():
+    try:
+        apikey = os.environ["VTAPI"]
+    except KeyError:
+        print("Must set VTAPI key enviroment variable.")
+        assert 0
 
 #test_positive_result(virustotal.scan(testfile, apikey))  # test with EICAR file
 # eicar file disabled because it makes Travis-CI angry
-result = virustotal.scan(eicar_sha256, apikey)  # test with EICAR hash
-check_positive(result)
+    result = virustotal.scan(eicar_sha256, apikey)  # test with EICAR hash
+    check_positive(result)
