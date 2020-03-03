@@ -9,7 +9,7 @@ import requests
 
 def create_parse():
     parser = argparse.ArgumentParser(description="virustotal file uploader")
-    parser.add_argument("filename", help="file to scan")
+    parser.add_argument("filename", help="file(s) to scan", nargs="+")
     return parser
 
 
@@ -29,7 +29,8 @@ def start():
     except KeyError:
         print("Must set VTAPI key enviroment variable.")
         sys.exit(1)
-    scanit(args.filename, apikey)
+    for item in args.filename:
+        scanit(item, apikey)
 
 
 if __name__ == "__main__":
