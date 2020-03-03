@@ -10,7 +10,7 @@ import virustotal
 def create_parse():
     """ set up CLI parser """
     parser = argparse.ArgumentParser(description="virustotal file report retriever")
-    parser.add_argument("filename", help="file to check for results")
+    parser.add_argument("filename", help="file(s) to check for results", nargs="+")
     return parser
 
 
@@ -23,8 +23,9 @@ def start():
     except KeyError:
         print("Must set VTAPI key enviroment variable.")
         sys.exit(1)
-    response = virustotal.scan(args.filename, apikey)
-    pprint.pprint(response)
+    for item in args.filename:
+        response = virustotal.scan(item, apikey)
+        pprint.pprint(response)
 
 
 if __name__ == "__main__":
