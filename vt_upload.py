@@ -18,6 +18,16 @@ def scanit(filename, apikey):
     params = {"apikey": apikey}
     files = {"file": (filename, open(filename, "rb"))}
     response = requests.post(url, files=files, params=params)
+    try:
+        vtlog = os.environ["VTLOG"]
+        try:
+            with open(vtlog, "a") as f:
+                json = response.json()
+                f.write(str(json))
+        except Error as e:
+            print("Error: ",e)
+    except KeyError:
+        vtlog = None
     pprint.pprint(response.json())
 
 
@@ -29,6 +39,11 @@ def start():
     except KeyError:
         print("Must set VTAPI key enviroment variable.")
         sys.exit(1)
+    try:
+        vtlog = os.environ["VTLOG"]
+    except KeyError:
+        vtlog = None
+
     for item in args.filename:
         scanit(item, apikey)
 
