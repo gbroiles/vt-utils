@@ -25,7 +25,7 @@ def scanit(filename, apikey):
                 json = response.json()
                 f.write(str(json))
         except Error as e:
-            print("Error: ",e)
+            print("Error: ", e)
     except KeyError:
         vtlog = None
     pprint.pprint(response.json())
