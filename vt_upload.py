@@ -27,7 +27,7 @@ def scanit(filename, apikey):
         except Error as e:
             print("Error: ", e)
     except KeyError:
-        vtlog = None
+        continue
     pprint.pprint(response.json())
 
 
@@ -39,10 +39,6 @@ def start():
     except KeyError:
         print("Must set VTAPI key enviroment variable.")
         sys.exit(1)
-    try:
-        vtlog = os.environ["VTLOG"]
-    except KeyError:
-        vtlog = None
 
     for item in args.filename:
         scanit(item, apikey)
