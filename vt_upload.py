@@ -16,19 +16,19 @@ def create_parse():
 def scanit(filename, apikey):
     url = "https://www.virustotal.com/vtapi/v2/file/scan"
     params = {"apikey": apikey}
-    files = {"file": (filename, open(filename, "rb"))}
-    response = requests.post(url, files=files, params=params)
-    try:
-        vtlog = os.environ["VTLOG"]
+    with open(filename, "rb") as fh:
+        files = {"file": (filename, fh)}
+        response = requests.post(url, files=files, params=params)
+    response.raise_for_status()
+    result = response.json()
+    vtlog = os.environ.get("VTLOG")
+    if vtlog:
         try:
             with open(vtlog, "a") as f:
-                json = response.json()
-                f.write(str(json))
-        except Error as e:
+                f.write(str(result) + "\n")
+        except Exception as e:
             print("Error: ", e)
-    except KeyError:
-        continue
-    pprint.pprint(response.json())
+    pprint.pprint(result)
 
 
 def start():
@@ -37,7 +37,7 @@ def start():
     try:
         apikey = os.environ["VTAPI"]
     except KeyError:
-        print("Must set VTAPI key enviroment variable.")
+        print("Must set VTAPI key environment variable.")
         sys.exit(1)
 
     for item in args.filename:

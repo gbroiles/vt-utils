@@ -21,7 +21,7 @@ def start():
     try:
         apikey = os.environ["VTAPI"]
     except KeyError:
-        print("Must set VTAPI key enviroment variable.")
+        print("Must set VTAPI key environment variable.")
         sys.exit(1)
     for item in args.filename:
         response = virustotal.scan(item, apikey)

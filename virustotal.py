@@ -1,6 +1,5 @@
 """ utility functions for virustotal API """
 import hashlib
-import json
 import requests
 
 HEXCHARS = "0123456789abcdef"
@@ -9,23 +8,25 @@ HEXCHARS = "0123456789abcdef"
 def scan(filename, apikey):
     """ checks virustotal for given filename hash for pre-generated reports """
     url = "https://www.virustotal.com/vtapi/v2/file/report"
-    count = len(filename)
+    normalized = filename.lower()
+    count = len(normalized)
     if (count == 64 or count == 40 or count == 32) and all(
-        x in filename for x in HEXCHARS
+        x in HEXCHARS for x in normalized
     ):
         print("Treating {} as a hash, not as a filename".format(filename))
-        sha256 = filename
+        resource = normalized
     elif (
         count == 75
-        and filename[64] == "-"
-        and all(x in filename for x in HEXCHARS + "-")
+        and normalized[64] == "-"
+        and all(x in HEXCHARS for x in normalized[:64] + normalized[65:])
     ):
         print("Treating {} as a VirusTotal scan ID, not as a filename".format(filename))
-        sha256 = filename
+        resource = normalized
     else:
         with open(filename, "rb") as infile:
             contents = infile.read()
-        sha256 = hashlib.sha256(contents).hexdigest()
-    params = {"apikey": apikey, "resource": sha256, "allinfo": True}
+        resource = hashlib.sha256(contents).hexdigest()
+    params = {"apikey": apikey, "resource": resource, "allinfo": True}
     response = requests.get(url, params=params)
-    return json.loads(response.text)
+    response.raise_for_status()
+    return response.json()
